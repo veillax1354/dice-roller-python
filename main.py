@@ -236,7 +236,6 @@ while True:
                 tmproll = random.randrange(1, 5)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D6
@@ -244,7 +243,6 @@ while True:
                 tmproll = random.randrange(1, 7)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D8
@@ -252,7 +250,6 @@ while True:
                 tmproll = random.randrange(1, 9)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D10
@@ -260,7 +257,6 @@ while True:
                 tmproll = random.randrange(1, 11)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D12
@@ -268,7 +264,6 @@ while True:
                 tmproll = random.randrange(1, 13)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D20
@@ -276,7 +271,6 @@ while True:
                 tmproll = random.randrange(1, 21)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
             #Roll a D100
@@ -284,11 +278,14 @@ while True:
                 tmproll = random.randrange(1, 101)
                 roll += tmproll
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                print(Iteration)
                 tmproll = 0
 
-            #Appends each iteration from the roll to the output file
-            filewriteto.write(Iteration + '\n')
+            if diei[0] > 999 and i % 1000 == 0:
+                print(Iteration)
+                 #Appends each iteration from the roll to the output file
+                filewriteto.write(Iteration + '\n')
+              
+           
 
             i += 1
 
@@ -301,6 +298,7 @@ while True:
         print(
             "All outputs have been saved. To view them, please view 'output.txt'\n"
         )
+        
 
     if endcode == 'delfile':
         print(
