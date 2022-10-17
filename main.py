@@ -280,11 +280,14 @@ while True:
                 Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
                 tmproll = 0
 
-            if diei[0] > 999 and i % 1000 == 0:
+            if diei[0] > 99 and i % 100 == 0:
                 print(Iteration)
                  #Appends each iteration from the roll to the output file
                 filewriteto.write(Iteration + '\n')
-              
+            elif i < 100:
+                print(Iteration)
+                #Appends each iteration from the roll to the output file
+                filewriteto.write(Iteration + '\n')
            
 
             i += 1
@@ -294,6 +297,7 @@ while True:
         print(finalroll)
         #Appends the final roll to the output file
         filewriteto.write(finalroll)
+        filewriteto.close()
 
         print(
             "All outputs have been saved. To view them, please view 'output.txt'\n"
