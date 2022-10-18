@@ -1,316 +1,165 @@
 import random
+import json
 import os
 
 #Title
 
-print("____________________________________________________________")
-print("|      ___        _                        _           _   |")
-print("|     / _ \      | |                      | |         | |  |")
-print("|    / /_\ \_   _| |_ ___  _ __ ___   __ _| |_ ___  __| |  |")
-print("|    |  _  | | | | __/ _ \| '_ ` _ \ / _` | __/ _ \/ _` |  |")
-print("|    | | | | |_| | || (_) | | | | | | (_| | ||  __/ (_| |  |")
-print("|    \_| |_/\__,_|\__\___/|_| |_| |_|\__,_|\__\___|\__,_|  |")
-print("|                                                          |")
-print("|                                                          |")
-print("|    ______ _           ______      _ _                    |")
-print("|    |  _  (_)          | ___ \    | | |                   |")
-print("|    | | | |_  ___ ___  | |_/ /___ | | | ___ _ __          |")
-print("|    | | | | |/ __/ _ \ |    // _ \| | |/ _ \ '__|         |")
-print("|    | |/ /| | (_|  __/ | |\ \ (_) | | |  __/ |            |")
-print("|    |___/ |_|\___\___| \_| \_\___/|_|_|\___|_|            |")
-print("|                                                          |")
-print("|__________________________________________________________|")
+print("____________________________________________________________\n|      ___        _                        _           _   |\n|     / _ \      | |                      | |         | |  |\n|    / /_\ \_   _| |_ ___  _ __ ___   __ _| |_ ___  __| |  |\n|    |  _  | | | | __/ _ \| '_ ` _ \ / _` | __/ _ \/ _` |  |\n|    | | | | |_| | || (_) | | | | | | (_| | ||  __/ (_| |  |\n|    \_| |_/\__,_|\__\___/|_| |_| |_|\__,_|\__\___|\__,_|  |\n|                                                          |\n|                                                          |\n|    ______ _           ______      _ _                    |\n|    |  _  (_)          | ___ \    | | |                   |\n|    | | | |_  ___ ___  | |_/ /___ | | | ___ _ __          |\n|    | | | | |/ __/ _ \ |    // _ \| | |/ _ \ '__|         |\n|    | |/ /| | _|  __/  | |\ \ (_) | | |  __/ |            |\n|    |___/ |_|\___\___| \_| \_\___/|_|_|\___|_|            |\n|                                                          |\n|__________________________________________________________|\n                       ________     \n            ______    | .   . |\    \n           /     /\   |   .   |.\   \n          /  '  /  \  | .   . |.'|  \n         /_____/. . \ |_______|.'|  \n         \ . . \    /  \ ' .   \.|  \n          \ . . \  /    \____'__\|  \n           \_____\/               \n")
+print(
+    "Please enter the dice you want to roll in the following format: \n<Die Amount> <Die Type>.\n\nYou can roll the following dice:\nD4\nD6\nD8\nD10\nD12\nD20\nD100\n\nIf you would like to end the program, type 'end'. \nIf you would like to see the commands this program can run, type 'help', 'commands', or '?'.\n\nControls for custom rolls: custom <min> <max>\n\nThanks, and hope you enjoy!\n"
+)
 
-print("                       ________     ")
-print("            ______    | .   . |\    ")
-print("           /     /\   |   .   |.\   ")
-print("          /  '  /  \  | .   . |.'|  ")
-print("         /_____/. . \ |_______|.'|  ")
-print("         \ . . \    /  \ ' .   \.|  ")
-print("          \ . . \  /    \____'__\|  ")
-print("           \_____\/               \n")
+# Handles options
+# Opening JSON file
+f = open('options.json',)
+  
+# returns JSON object as a dictionary
+data = json.load(f)
 
-#Restart loop
+# Iterating through the json list
+for i in data['options']:
+    verify = str(i).split()  
+debugverify1 = verify[1].strip(',')
+if debugverify1 == 'True':
+    print('Debug Enabled\n' + str(verify) + '\n')
+
+printverify1 = verify[3].strip('}')
+if printverify1 == 'True':
+    print('Itteration Printing Enabled\n' + str(verify) + '\n')
+
+commands = ['']
+endcode = ''
+cmd = ''
+num = 0
+roll = 0
+i = 1
+
 while True:
-    #Instructions
-    print(
-        "Please enter the dice you want to roll in the following format: \n<Die Amount> <Die Type>.\n\nYou can roll the following dice:\nD4\nD6\nD8\nD10\nD12\nD20\nD100\n\nIf you would like to end the program, type 'end'. \nIf you would like to see the commands this program can run, type 'help', 'commands', or '?'.\n\nControls for custom rolls: custom <min> <max>\n\nThanks, and hope you enjoy!"
-    )
+    cmd = input('Command: \n')
+    commands = cmd.split()
+    if debugverify1 == 'True':
+        print(commands)
 
-    #Varible decleration
-    endcode = ''
-    Iteration = ''
-    finalroll = ''
-    dietype = ''
-    rollamt = 0
-    tmproll = 0
-    roll = 0
-    i = 0
-
-    #Tries to crate a new output file, if one already exists, it will start to append to the new file.
-    try:
-        filewriteto = open("output.txt", "x")
-        print("Output file created!")
-    except:
-        print("File already exists! Attempting to append to an existing file.")
-        filewriteto = open("output.txt", "a")
-    finally:
-        filewriteto.write("\n\nProgram Start: \n\n")
-
-    #Starts the main loop that runs the program
-    while True:
-        #Input & Parce
-        diei = input("Roll: ").split()
-
-        #COMMANDS
+    #COMMANDS
+    #Handles cmd listing
+    if commands[0] == 'help' or commands[0] == 'commands' or commands[0] == '?':
+        print('')
+        print(
+            '____________________________________________________________________________________________________________________'
+        )
+        print(
+            '|                                                                                                                  |'
+        )
+        print(
+            '|roll    || arguments: roll <amt> <type>   || Rolls dice based on the included arguments   || aliases:             |'
+        )
+        print(
+            '|end     || arguments: end                 || use: Ends the program                        || aliases:             |'
+        )
+        print(
+            '|restart || arguments: restart             || use: Restarts the program                    || aliases:             |'
+        )
+        print(
+            '|help    || arguments: help                || prints out the command list                  || aliases: ?, commands |'
+        )
+        print(
+            '|clear   || arguments: clear               || use: clears the options file                 || aliases: purge, wipe |'
+        )
+        print(
+            '|read    || arguments: read                || use: prints the contents of the options file || aliases: print       |'
+        )
+        print(
+            '|__________________________________________________________________________________________________________________|'
+        )
+        continue
 
         #Handles ending the program
-        if diei[0] == 'end':
+    if commands[0] == 'end':
+        confirm = input(
+            "Are you sure you want to end the current session? Y/N ")
+        if confirm == 'Y' or confirm == 'y':
+            endcode = 'end'
+            print(
+                "CMD 'sessionend' called. Confirmation true. Terminating session."
+            )
+            break
+        elif confirm == 'N' or confirm == 'n':
+            print(
+                "CMD 'sessionend' called. Confirmation false. Session termination cancled."
+            )
+            continue
+
+    
+    #Handles clearing of the options file
+    if commands[0] == 'clear' or commands[0] == 'purge' or commands[
+            0] == 'wipe':
+        if os.path.exists("options.json"):
             confirm = input(
-                "Are you sure you want to end the current session? Y/N ")
+                "Are you sure you want to wipe the options file? Y/N ")
             if confirm == 'Y' or confirm == 'y':
-                endcode = 'end'
+                os.remove("options.json")
+                options = open("options.json", "x")
+                options = open("options.json", "a")
                 print(
-                    "CMD 'sessionend' called. Confirmation true. Terminating session."
+                    "CMD 'wipefile' called. Confirmation true. File wipe succesfull."
                 )
-                break
             elif confirm == 'N' or confirm == 'n':
                 print(
-                    "CMD 'sessionend' called. Confirmation false. Session termination cancled."
+                    "CMD 'wipefile' called. Confirmation false. File wipe cancled."
                 )
                 continue
-
-        #Handles restarting the program
-        if diei[0] == 'restart':
-            endcode = 'restart'
-            break
-
-        #Handles clearing of the output file
-        if diei[0] == 'clear' or diei[0] == 'purge' or diei[0] == 'wipe':
-            if os.path.exists("output.txt"):
-                confirm = input(
-                    "Are you sure you want to wipe the output file? Y/N ")
-                if confirm == 'Y' or confirm == 'y':
-                    os.remove("output.txt")
-                    filewriteto = open("output.txt", "x")
-                    filewriteto = open("output.txt", "a")
-                    print(
-                        "CMD 'wipefile' called. Confirmation true. File wipe succesfull."
-                    )
-                elif confirm == 'N' or confirm == 'n':
-                    print(
-                        "CMD 'wipefile' called. Confirmation false. File wipe cancled."
-                    )
-                continue
             else:
                 print("\nThe file does not exist.\n\n")
                 continue
 
-        #Handles deletion of the output file
-        if diei[0] == 'del' or diei[0] == 'delete':
-            if os.path.exists("output.txt"):
-                confirm = input(
-                    "Are you sure you want to delete the output file? Y/N ")
-                if confirm == 'Y' or confirm == 'y':
-                    os.remove("output.txt")
-                    print(
-                        "CMD 'delfile' called. Confirmation true. File deletion succesfull."
-                    )
-                    endcode = 'delfile'
-                elif confirm == 'N' or confirm == 'n':
-                    print(
-                        "CMD 'delfile' called. Confirmation false. File deletion cancled."
-                    )
-                continue
-            else:
-                print("\nThe file does not exist.\n\n")
-                continue
-
-        #Reads the output file if one currently exist
-        if diei[0] == 'read' or diei[0] == 'print':
+    #Handles deletion of the options file
+    if commands[0] == 'del' or commands[0] == 'delete':
+        if os.path.exists("options.json"):
+            confirm = input(
+                "Are you sure you want to delete the options file? Y/N ")
+            if confirm == 'Y' or confirm == 'y':
+                os.remove("options.json")
+                print(
+                    "CMD 'delfile' called. Confirmation true. File deletion succesfull."
+                )
+                endcode = 'delfile'
+            elif confirm == 'N' or confirm == 'n':
+                print(
+                    "CMD 'delfile' called. Confirmation false. File deletion cancled."
+                )
+            continue
+        else:
+            print("\nThe file does not exist.\n\n")
+            continue
+        #Reads the options file if one currently exist
+        if commands[0] == 'read' or commands[0] == 'print':
             try:
-                filewriteto = open("output.txt", "r")
-                print(filewriteto.read())
-                filewriteto = open("output.txt", "a")
+                print(options.read())
                 continue
             except:
-                print(
-                    "File already exists! Attempting to append to an existing file."
-                )
+                print("The file does not exist.")
                 continue
 
-        #Handles custom rolls
-        if diei[0] == 'custom':
-            try:
-                min = int(diei[1])
-                max = int(diei[2]) + 1
-                tmproll = random.randrange(min, max)
-                roll += tmproll
-                tmproll = 0
-                min = 0
-                max = 0
-                finalroll = "Custom roll is: " + str(roll) + "\n\n"
-                roll = 0
-                print(finalroll)
-                filewriteto.write("\n['custom', '" + str(min) + "', '" +
-                                  str(max - 1) + "']\n" + finalroll)
-                
-                continue
-            except IndexError:
-                print(
-                    "IndexError: list index out of range \nIt appears that you tried to run a command without including the propper arguments. Please try again"
-                )
-                continue
-            except ValueError:
-                print(
-                    "ValueError: invalid literal for int() with base 10: '" +
-                    diei[1] +
-                    "'\nIt appears that you have entered a value that cannot be procceced and translated into an integet using the base 10 system, please try again using the following format: <Dice amount> <Die type>"
-                )
-                continue
-
-        #Handles cmd listing
-        if diei[0] == 'help' or diei[0] == 'commands' or diei[0] == '?':
-            print('')
-            print(
-                '__________________________________________________________________________________________________________________'
-            )
-            print(
-                '|                                                                                                                |'
-            )
-            print(
-                '|roll    || arguments: <amt> <type>        || Rolls dice based on the included arguments || aliases:             |'
-            )
-            print(
-                '|custom  || arguments: custom <min> <max>  || use: allows for rolling with custom limits || aliases:             |'
-            )
-            print(
-                '|end     || arguments: none                || use: Ends the program                      || aliases:             |'
-            )
-            print(
-                '|restart || arguments: none                || use: Restarts the program                  || aliases:             |'
-            )
-            print(
-                '|help    || arguments: none                || prints out the command list                || aliases: ?, commands |'
-            )
-            print(
-                '|clear   || arguments: none                || use: clears the output file                || aliases: purge, wipe |'
-            )
-            print(
-                '|read    || arguments: none                || use: prints the contents of the outpt file || aliases: print       |'
-            )
-            print(
-                '|delete  || arguments: none                || use: deletes the output file               || aliases: del         |'
-            )
-            print(
-                '|________________________________________________________________________________________________________________|'
-            )
-            continue
-
-        #Checks to see if the input roll amount is an integer or not
-        try:
-            rollamt = int(diei[0])
-        except ValueError:
-            print(
-                "ValueError: invalid literal for int() with base 10: '" +
-                diei[0] +
-                "'\nIt appears that you have entered a value that cannot be procceced and translated into an integet using the base 10 system, please try again using the following format: <Dice amount> <Die type>"
-            )
-            continue
-        try:
-            dietype = str(diei[1])
-        except IndexError:
-            print(
-                "IndexError: list index out of range \nIt appears that you tried to run a command without including the propper arguments. Please try again"
-            )
-
-        #Prints the output of a propper roll input
-        if os.path.exists("output.txt"):
-            filewriteto.write(str(diei) + '\n')
-
-        #Starts the main die roll sequence
-        while i < rollamt:
-
-            #Roll a D4
-            if dietype == 'd4' or dietype == 'D4':
-                tmproll = random.randrange(1, 5)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D6
-            if dietype == 'd6' or dietype == 'D6':
-                tmproll = random.randrange(1, 7)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D8
-            if dietype == 'd8' or dietype == 'D8':
-                tmproll = random.randrange(1, 9)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D10
-            if dietype == 'd10' or dietype == 'D10':
-                tmproll = random.randrange(1, 11)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D12
-            if dietype == 'd12' or dietype == 'D12':
-                tmproll = random.randrange(1, 13)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D20
-            if dietype == 'd20' or dietype == 'D20':
-                tmproll = random.randrange(1, 21)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            #Roll a D100
-            if dietype == 'd100' or dietype == 'D100':
-                tmproll = random.randrange(1, 101)
-                roll += tmproll
-                Iteration = 'Iteration ' + str(i + 1) + ': ' + str(tmproll)
-                tmproll = 0
-
-            if diei[0] > 99 and i % 100 == 0:
-                print(Iteration)
-                 #Appends each iteration from the roll to the output file
-                filewriteto.write(Iteration + '\n')
-            elif i < 100:
-                print(Iteration)
-                #Appends each iteration from the roll to the output file
-                filewriteto.write(Iteration + '\n')
-           
-
-            i += 1
-
-            finalroll = '\nFinal roll is: ' + str(roll) + '\n\n'
-
-        print(finalroll)
-        #Appends the final roll to the output file
-        filewriteto.write(finalroll)
-        filewriteto.close()
-
-        print(
-            "All outputs have been saved. To view them, please view 'output.txt'\n"
-        )
-        
-
-    if endcode == 'delfile':
-        print(
-            "Hey! This has stopped running due to a request for file deletion. To stop the recreation of the file or any errors due to the file being missing. Please start it again if you want to continue using the program, just make sure to be done first."
-        )
-        break
-    elif endcode == 'end':
-        print("Thanks for using this dice roller. I hope you liked it!.")
-        break
-    elif endcode == 'restart':
+    try:
+        if commands[0] == 'roll':
+            roll = int(commands[2][1:])
+            if debugverify1 == 'True':
+                print('roll')
+                print(roll)
+            if len(commands) == 3:
+                if debugverify1 == 'True':
+                    print(len(commands))
+                i = 1
+                while int(i) < (int(commands[1]) + 1):
+                    mun = random.randint(1, roll)
+                    num += mun
+                    if debugverify1 == 'True':
+                        print(str(i) + ': ' + str(mun))
+                    if printverify1 == 'True':
+                        print(str(i) + ': ' + str(mun))
+                    i += 1
+                print(num)
+                num = 0
+    except ValueError:
+        print('Invalid value inputed. Please try again.')
         continue
