@@ -1,6 +1,10 @@
 # dice-roller-python
 
-advanced dice roller in python
+Advanced dice roller written entirely in python
+
+# Uses:
+    
+    Used for rolling dice, essentially as a random number generator, but way cooler.
 
 Commands:
     
@@ -28,9 +32,7 @@ read:
         
     Used to print the contents of the options file (options.json). How to use: read , print 
 
-#Uses:
-    
-    Used for rolling dice, essentially as a random unmber generator, but way cooler.
+
 
 Options:
     
